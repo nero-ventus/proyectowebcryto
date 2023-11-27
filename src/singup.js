@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
+import md5 from 'js-md5';
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -22,12 +23,13 @@ const SignUp = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const hashedPassword = md5(password);
 
         // Lógica para crear una cuenta de usuario (no implementada en este ejemplo)
         axios.post('http://localhost:8081/signup', {
             username: username,
             email: email,
-            password: password
+            password: hashedPassword
         })
             .then(res => {
                 console.log(res);

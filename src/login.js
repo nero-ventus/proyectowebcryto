@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import md5 from 'js-md5';
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -16,14 +18,15 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const hashedPassword = md5(password);
 
-        axios.post('http://localhost:8081/signup', {
+        axios.post('http://localhost:8081/login', {
             username: username,
-            password: password
+            password: hashedPassword
         })
             .then(res => {
                 console.log(res);
-                alert("Se ha enviado un correo de confirmacion a la dirreccion que proporciono, confime para poder inicar sesion")
+                alert("Ingreso exitoso")
                 navigate("/home")
             })
             .catch(err => console.log(err));
