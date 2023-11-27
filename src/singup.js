@@ -3,6 +3,12 @@ import axios from 'axios';
 import {useNavigate} from "react-router-dom";
 import md5 from 'js-md5';
 
+import './LoginSignup.css';
+
+import user_icon from './Assets/person.png'
+import email_icon from './Assets/email.png'
+import password_icon from './Assets/password.png'
+
 const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -40,37 +46,52 @@ const SignUp = () => {
     };
 
     return (
-        <div>
-            <h2>Sign Up</h2>
+        <div className='container'>
+            <div className='header'>
+                <div className='text'>Registrarse</div>
+                <div className='underline'></div>
+            </div>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={handleUsernameChange}
-                    />
+                <div className='inputs'>
+                    <div className='input'>
+                        <img src={user_icon} alt="" />
+                        <input
+                            type='text'
+                            placeholder='Nombre'
+                            id="username"
+                            value={username}
+                            onChange={handleUsernameChange}
+                        />
+                    </div>
+                    <div className='input'>
+                        <img src={email_icon} alt="" />
+                        <input
+                            type='email'
+                            placeholder='Correo'
+                            id="email"
+                            value={email}
+                            onChange={handleEmailChange}
+                        />
+                    </div>
+                    <div className='input'>
+                        <img src={password_icon} alt="" />
+                        <input
+                            type='password'
+                            placeholder='Contraseña'
+                            id="password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                        />
+                    </div>
+                    <div className='input'>
+                        <img src={password_icon} alt="" />
+                        <input type='password' placeholder='Confirmar contraseña' />
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={handleEmailChange}
-                    />
+
+                <div className='submit-container'>
+                    <button className="submit" type="submit">Registrarse</button>
                 </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                </div>
-                <button type="submit">Sign Up</button>
             </form>
         </div>
     );
