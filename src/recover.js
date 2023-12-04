@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from "axios";
 const Recover = () => {
     const [email, setEmailname] = useState('');
 
@@ -9,10 +10,14 @@ const Recover = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Aquí podrías hacer la lógica para enviar la información de inicio de sesión a tu backend
-        console.log('Email:', email);
-
-        // Lógica para autenticar al usuario (no implementada en este ejemplo)
+        axios.post('http://localhost:8081/recover', {
+            email: email
+        })
+            .then(res => {
+                console.log(res);
+                alert("Correo de recuperacion enviado")
+            })
+            .catch(err => console.log(err));
     };
 
     return (

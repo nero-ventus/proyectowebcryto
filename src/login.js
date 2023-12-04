@@ -5,7 +5,6 @@ import md5 from 'js-md5';
 
 import './LoginSignup.css';
 
-import user_icon from './Assets/person.png'
 import email_icon from './Assets/email.png'
 import password_icon from './Assets/password.png'
 
@@ -31,9 +30,9 @@ const Login = () => {
             password: hashedPassword
         })
             .then(res => {
-                console.log(res);
+                console.log(res.data);
                 alert("Ingreso exitoso")
-                navigate("/home")
+                navigate("/home", { state: {user: res.data.user, token: res.data.token }});
             })
             .catch(err => console.log(err));
     };
@@ -69,11 +68,14 @@ const Login = () => {
                 </div>
 
                 <div className='forgot-password'>
-                    Olvido contraseña <span>Click aqui</span>
+                    Olvido contraseña  <Link to="/recover"><span>Click aqui</span></Link>
                 </div>
 
                 <div className='submit-container'>
                     <button className='submit' type="submit">Iniciar Sesion</button>
+                    <Link to="/signup">
+                        <button className='submit' >Registrarse</button>
+                    </Link>
                 </div>
             </form>
         </div>

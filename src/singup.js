@@ -13,6 +13,7 @@ const SignUp = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const navigate = useNavigate();
 
     const handleUsernameChange = (e) => {
@@ -27,22 +28,32 @@ const SignUp = () => {
         setPassword(e.target.value);
     };
 
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        const hashedPassword = md5(password);
 
-        // Lógica para crear una cuenta de usuario (no implementada en este ejemplo)
-        axios.post('http://localhost:8081/signup', {
-            username: username,
-            email: email,
-            password: hashedPassword
-        })
-            .then(res => {
-                console.log(res);
-                alert("Se ha enviado un correo de confirmacion a la dirreccion que proporciono, confime para poder inicar sesion")
-                navigate("/")
+        if(password !== confirmPassword){
+            alert("Las contraseñas no coinciden");
+        }
+        else {
+            const hashedPassword = md5(password);
+
+            // Lógica para crear una cuenta de usuario (no implementada en este ejemplo)
+            axios.post('http://localhost:8081/signup', {
+                username: username,
+                email: email,
+                password: hashedPassword
             })
-            .catch(err => console.log(err));
+                .then(res => {
+                    console.log(res);
+                    alert("Se ha enviado un correo de confirmacion a la dirreccion que proporciono, confime para poder inicar sesion")
+                    navigate("/")
+                })
+                .catch(err => console.log(err));
+        }
     };
 
     return (
@@ -85,7 +96,12 @@ const SignUp = () => {
                     </div>
                     <div className='input'>
                         <img src={password_icon} alt="" />
-                        <input type='password' placeholder='Confirmar contraseña' />
+                        <input
+                            type='password'
+                            placeholder='Confirmar contraseña'
+                            id='confirmPassword'
+                            value={confirmPassword}
+                            onChange={handleConfirmPasswordChange}/>
                     </div>
                 </div>
 
