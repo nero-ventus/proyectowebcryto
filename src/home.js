@@ -66,10 +66,10 @@ const Home = () => {
                 doc.text('Usuario: ' + response.data[0].username +
                     '\nFecha: ' + response.data[0].date +
                     '\nDescripcion: ' + response.data[0].description +
-                    '\nFirma: ' + response.data[0].billtoken , 10, 10); // Agrega texto al PDF
+                    '\nFirma: ' + response.data[0].signature , 10, 10); // Agrega texto al PDF
 
                 // Genera el código QR utilizando el billtoken
-                const qrCodeData = 'http://localhost:8081/validatebill?token=' + response.data[0].billtoken;
+                const qrCodeData = 'http://localhost:8081/validatebill1?token=' + response.data[0].billtoken;
                 const qrCodeImage = new Image();
                 qrCodeImage.src = 'https://api.qrserver.com/v1/create-qr-code/?data=' + encodeURIComponent(qrCodeData);
 
@@ -84,11 +84,30 @@ const Home = () => {
             });
     };
 
+    const getPublicKey = () => {
+
+        axios.get('http://localhost:8081/getpublickey', {
+            params: {
+                token: token
+            }
+        })
+            .then(response => {
+                // Actualizar el estado con la lista de compras obtenida
+                const doc = new jsPDF();
+                doc.setFontSize(10);
+                doc.text(response.data.publickey, 10, 10); // Agrega texto al PDF
+
+                doc.save('generated.pdf'); // Guarda el PDF
+            })
+            .catch(error => {
+                console.error('Error al obtener llave publica', error);
+            });
+    };
+
     return (
         <div>
             <h2>Bienvenido {user}</h2>
-            <Link to="/makebill">Generar documento</Link>
-
+            <button onClick={() => getPublicKey()}>Obtener Llave publica</button>
             <form onSubmit={handleSubmit} method="post">
                 <div className='header'>
                     <div className='text'>Registrar compra</div>
